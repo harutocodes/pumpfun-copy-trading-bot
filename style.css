@@ -19,6 +19,9 @@ body {
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+/* inline links in prose stay underlined, color alone fails a11y */
+main p a:not(.btn), main li a, footer p a { text-decoration: underline; }
+
 code {
   background: var(--panel);
   border: 1px solid var(--line);
