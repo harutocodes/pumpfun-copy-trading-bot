@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PumpCopy: pump.fun copy trading bot for Windows</title>
+<meta name="description" content="PumpCopy mirrors pump.fun trades of wallets you pick. Bonding-curve buys and sells copied from your own Windows desktop. Keys never leave your disk. Free and open source.">
+<link rel="canonical" href="https://harutocodes.github.io/pumpfun-copy-trading-bot/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="logo" href="/">PumpCopy</a>
+  <nav>
+    <a href="#how">what it copies</a>
+    <a href="#screenshots">screenshots</a>
+    <a href="#setup">setup</a>
+    <a href="#faq">faq</a>
+    <a class="gh" href="https://github.com/harutocodes/pumpfun-terminal">github</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <h1>Pump.fun copy trading bot for Windows</h1>
+  <p class="lead">PumpCopy watches whale wallets on pump.fun and mirrors their
+  bonding-curve buys and sells from your own wallet. A desktop app, not a
+  telegram bot, not a custodial service. Your keys, your transactions.</p>
+  <p class="cta">
+    <a class="btn" href="https://github.com/harutocodes/pumpfun-terminal/releases/latest">download v0.2.1</a>
+    <a class="btn ghost" href="https://github.com/harutocodes/pumpfun-terminal">source on github</a>
+    <span class="note">free, open source, Windows 10/11 x64</span>
+  </p>
+  <figure>
+    <img src="img/feed.png" width="2098" height="1218" alt="PumpCopy live feed copying pump.fun trades of a whale wallet, five copied buys and session pnl in SOL">
+    <figcaption>live feed: leader fills on the left of each row, our copies on the right</figcaption>
+  </figure>
+</section>
+
+<section id="how">
+  <h2>What it copies</h2>
+  <p>The app subscribes to transaction logs over websocket, decodes pump.fun
+  trade events from wallets you list as leaders, and sends the same side from
+  your wallet. You copy actual fills decoded from the chain, not price moves
+  and not screenshots of a leaderboard.</p>
+  <ul>
+    <li>Buys fixed SOL size or proportional to the leader, with a per-leader multiplier while you test a new wallet.</li>
+    <li>Sells proportional to your remaining bag. Leader closes the token account, yours gets closed too.</li>
+    <li>Filters that keep dust out: min leader SOL, max your SOL, max open positions, skip migrated curves, random delay before copying.</li>
+    <li>RPC pool with failover and round-robin, optional socks5 proxy for both HTTP and websocket.</li>
+    <li>Live feed table with every copied trade, session stats and pnl, rolling file logs when something looks wrong.</li>
+    <li>Paper mode and a demo feed, so you can watch leader trades turn into copies before a single real lamport moves.</li>
+  </ul>
+</section>
+
+<section id="screenshots">
+  <h2>Screenshots</h2>
+  <figure>
+    <img src="img/wallet.png" width="2090" height="1286" alt="PumpCopy wallet tab with an imported Solana keypair picked as trading wallet" loading="lazy">
+    <figcaption>wallet tab: keys imported from file or paste, stored in config.json next to the exe</figcaption>
+  </figure>
+  <figure>
+    <img src="img/trading.png" width="2095" height="1428" alt="PumpCopy trading tab with buy size, slippage, priority fee and paper mode settings" loading="lazy">
+    <figcaption>trading tab: size, slippage, priority fee, paper mode, verbose logs</figcaption>
+  </figure>
+  <figure>
+    <img src="img/connection.png" width="2097" height="1433" alt="PumpCopy connection tab with a list of Solana RPC endpoints and latency" loading="lazy">
+    <figcaption>connection tab: RPC endpoints with failover order and live latency</figcaption>
+  </figure>
+</section>
+
+<section id="setup">
+  <h2>Quick start</h2>
+  <ol>
+    <li>Unpack the release zip anywhere and run <code>PumpCopy.App.exe</code>. First start writes <code>config.json</code> next to it.</li>
+    <li>Connection tab: add your RPC endpoints. A private Helius or Quicknode key behaves much better than a public endpoint.</li>
+    <li>Wallet tab: import a fresh wallet key and pick it as the trading wallet. Not your main wallet, ever.</li>
+    <li>Main tab: add leader wallets, press START. Keep paper mode on for the first session and watch the feed before you fund anything.</li>
+  </ol>
+  <p>The full per-tab guide with screenshots is in
+  <a href="https://github.com/harutocodes/pumpfun-terminal/blob/main/SETUP.md">SETUP.md</a>
+  in the repo.</p>
+</section>
+
+<section id="requirements">
+  <h2>Requirements</h2>
+  <ul>
+    <li>Windows 10/11 x64</li>
+    <li>A Solana wallet with SOL for trades and fees, funded with money you can lose</li>
+    <li>An RPC endpoint, private Helius or Quicknode recommended</li>
+    <li>Stable internet. A VPS close to your RPC cuts latency but is not required</li>
+  </ul>
+</section>
+
+<section id="faq">
+  <h2>FAQ</h2>
+
+  <h3>Does pump.fun have copy trading built in?</h3>
+  <p>No. The pump.fun site and the official Terminal let you trade faster,
+  but neither mirrors another wallet for you. Copy trading happens through
+  bots and services like this one. PumpCopy reads leader fills from the chain
+  and trades from your own wallet.</p>
+
+  <h3>Is copy trading on pump.fun legal?</h3>
+  <p>The bot only automates your own trades: your key signs your transactions
+  from your machine, the same as any trading script. Copying public on-chain
+  activity is not insider trading and not front-running someone's private
+  flow. What gets people in trouble is managing other people's money without
+  licenses, so keep it to your own wallet.</p>
+
+  <h3>Does copy trading actually make money?</h3>
+  <p>Sometimes, and less than the leaderboard screenshots suggest. Most
+  memecoins go to zero, a profitable leader wallet can have five bad weeks in
+  a row, and slippage plus MEV eats more than people expect. Treat it as
+  high-risk automation with money you have already written off.</p>
+
+  <h3>Are my keys safe in this app?</h3>
+  <p>Signing happens locally and the key never leaves your disk, there is no
+  server and no upload anywhere. But a hot key on a connected Windows box is
+  still a hot key. Use a fresh wallet, keep the balance small, do not reuse
+  the key anywhere else.</p>
+
+  <h3>Do I need a VPS to run it?</h3>
+  <p>No, the app is a normal desktop program. A VPS near your RPC helps when
+  you copy fast wallets into thin curves, because every millisecond of delay
+  is price you pay on entry.</p>
+</section>
+
+<section id="risk" class="warn">
+  <h2>Risk warning</h2>
+  <p>Memecoin trading on pump.fun is extremely high risk. Most tokens go to
+  zero, copying a profitable wallet does not make you profitable, and failed
+  transactions still cost fees. PumpCopy is automation software, not financial
+  advice, with no warranty of any kind. You are responsible for the keys you
+  load into it and the trades it sends.</p>
+</section>
+
+<section id="donate">
+  <h2>Donate</h2>
+  <p>If the bot paid for itself and you want to say thanks:</p>
+  <p class="addr">SOL <code>Huw2ywYDAjhr1VjBVP4bspLw2Pmx1GFcv3ZsmZUkxYDg</code> <button data-copy="Huw2ywYDAjhr1VjBVP4bspLw2Pmx1GFcv3ZsmZUkxYDg">copy</button></p>
+  <p class="addr">ETH <code>0x6c4698288525676B43f60aFCf39b2044811B9B85</code> <button data-copy="0x6c4698288525676B43f60aFCf39b2044811B9B85">copy</button></p>
+</section>
+
+</main>
+
+<footer>
+  <p>PumpCopy is free software under the MIT license. This page has no
+  trackers, no cookies and no analytics.</p>
+  <p>
+    <a href="https://github.com/harutocodes/pumpfun-terminal">source and releases</a>
+    <a href="https://github.com/harutocodes/pumpfun-terminal/blob/main/SETUP.md">setup guide</a>
+    <a href="https://github.com/solgrid-development/Solgrid.Pumpfun">Solgrid.Pumpfun SDK</a>
+    <a href="https://github.com/harutocodes/pumpfun-copy-trading-bot/blob/main/LICENSE">license</a>
+  </p>
+</footer>
+
+</body>
+</html>
