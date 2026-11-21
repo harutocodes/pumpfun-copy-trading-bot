@@ -1,0 +1,6 @@
+# nothing builds here, keep editor noise out
+.vs/
+.idea/
+*.user
+Thumbs.db
+Desktop.ini
