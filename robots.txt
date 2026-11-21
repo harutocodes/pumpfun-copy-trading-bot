@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://harutocodes.github.io/pumpfun-copy-trading-bot/sitemap.xml
